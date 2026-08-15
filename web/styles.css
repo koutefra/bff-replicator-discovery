@@ -85,7 +85,7 @@ figure { margin-inline: 0; }
 .site-bar nav { display: flex; gap: 22px; }
 .site-id { letter-spacing: .02em; }
 
-.hero { padding-bottom: 44px; }
+.hero { padding-bottom: 44px; border-bottom: 1px solid var(--rule); }
 .hero-copy { max-width: 840px; padding: 48px 0 28px; }
 h1 {
   max-width: 850px;
