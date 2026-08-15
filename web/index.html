@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="An interactive reconstruction of how BFF execution turns a short cross-boundary copying loop into a self-replicator." />
+  <meta name="theme-color" content="#fafafa" />
+  <title>Replicator Discovery in BFF</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the results</a>
+
+  <header class="hero shell" aria-labelledby="page-title">
+    <div class="site-bar">
+      <span class="site-id">Interactive companion</span>
+      <nav aria-label="Page links">
+        <a href="https://github.com/koutefra/execution-induced-priors-bff" target="_blank" rel="noreferrer">source ↗</a>
+      </nav>
+    </div>
+
+    <div class="hero-copy">
+      <h1 id="page-title">Replicator Discovery in BFF</h1>
+      <p>How does execution turn non-replicating programs into self-replicators?</p>
+    </div>
+
+    <figure class="wait-figure" aria-labelledby="waiting-title">
+      <figcaption class="figure-heading">
+        <span id="waiting-title">Median wait to first discovery</span>
+        <span>lower is faster</span>
+      </figcaption>
+      <div id="waiting-chart" class="waiting-chart" aria-live="polite"></div>
+    </figure>
+
+    <p class="hero-finding">Both execution regimes discover replicators far sooner than uniform sampling. The faster of the two — where each program executes against a freshly sampled random partner rather than a shared evolving population — reaches first discovery in about half the median time of the standard BFF soup.</p>
+  </header>
+
+  <main id="main">
+    <section class="section shell intro-section" aria-labelledby="bff-title">
+      <div class="section-intro">
+        <h2 id="bff-title">BFF programs rewrite one another</h2>
+        <p>
+          BFF is a programming substrate introduced by
+          <a href="https://arxiv.org/abs/2406.19108" target="_blank" rel="noreferrer">
+            Agüera y Arcas et al. in <em>Computational Life</em>
+          </a>.
+          It is built on Brainfuck: two 64-byte programs are concatenated and executed
+          as a single 128-cell tape under Brainfuck-style control flow, extended with
+          two movable heads and byte-copy operations. Because code and data share that
+          tape, execution can rewrite the programs themselves. Afterward, the tape is
+          split back into two 64-byte programs.
+        </p>
+        <p>
+          In the standard BFF soup, two programs are drawn from the population,
+          concatenated, executed, split again, and both resulting programs are returned
+          to the evolving population.
+        </p>
+      </div>
+
+      <figure class="media-figure">
+        <video class="explanatory-video" data-autoplay muted loop playsinline controls preload="metadata" poster="assets/bff-soup-poster.png" aria-label="Animation of a BFF soup interaction">
+          <source src="assets/bff-soup.mp4" type="video/mp4" />
+        </video>
+        <figcaption>Standard BFF soup interaction.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section shell selftest-section" aria-labelledby="selftest-title">
+      <div class="section-intro">
+        <h2 id="selftest-title">How a program is classified as a replicator</h2>
+        <p>
+          We use the behavioral replication test released with the BFF implementation
+          accompanying <em>Computational Life</em> by Agüera y Arcas et al.
+          A candidate program is paired with 13 independently sampled random partners.
+          Each trial begins with one interaction, then follows the resulting offspring
+          through four additional generations against that trial’s same partner.
+          The stable, unchanging bytes on the parent side and on the offspring side are
+          compared, and the smaller of the two counts becomes the replication score.
+          A candidate that scores at least 60 of 64 is classified as a replicator.
+        </p>
+        <p>The animation below shows two of the 13 trials for legibility.</p>
+      </div>
+
+      <figure class="media-figure">
+        <video class="explanatory-video" data-autoplay muted loop playsinline controls preload="metadata" poster="assets/selfrep-test-poster.png" aria-label="Animation of the replicator classification test">
+          <source src="assets/selfrep-test.mp4" type="video/mp4" />
+        </video>
+        <figcaption>The replication test used throughout this work.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section shell knierim-section" aria-labelledby="knierim-title">
+      <div class="section-intro">
+        <h2 id="knierim-title">What does execution contribute?</h2>
+
+        <p>
+          <a href="https://arxiv.org/abs/2607.01483" target="_blank" rel="noreferrer">Knierim et al.</a>
+          recently showed that suitably designed stochastic search can match or outperform the standard BFF soup at finding self-replicators.
+          In particular, once the sampling or mutation distribution is chosen to favor useful regions of BFF program space,
+          pairwise BFF interaction is not uniquely efficient as a search strategy.
+        </p>
+
+        <p>
+          But this leaves a different question open:
+          <strong>why does BFF execution nevertheless accelerate discovery so strongly relative to uniform random sampling,
+          and what does execution actually do when a replicator is created?</strong>
+          We address that mechanism directly.
+        </p>
+      </div>
+    </section>
+
+    <section class="section shell regimes-section" aria-labelledby="regimes-title">
+      <div class="section-intro">
+        <h2 id="regimes-title">Three discovery regimes</h2>
+        <p>
+          The three regimes separate two effects that are entangled in the standard BFF soup:
+          <strong>execution</strong>, which can rewrite program code, and
+          <strong>population coupling</strong>, which feeds the products of those interactions back into the evolving population.
+          U removes execution entirely, R retains the full population-coupled BFF dynamics,
+          and N retains execution while replacing one interaction partner with a fresh uniformly sampled random program.
+        </p>
+        <p>
+          This lets us ask whether the acceleration in replicator discovery depends on interactions between programs
+          that have jointly evolved in the soup, or whether execution can already exploit structure supplied by random partners.
+        </p>
+      </div>
+
+      <figure class="regime-figure">
+        <div class="regime-grid" aria-label="Uniform sampling, population-coupled soup, and random-partner execution">
+          <article class="regime regime-u">
+            <header><span class="regime-letter">U</span><div><h3>Uniform sampling</h3><p>no execution</p></div></header>
+            <div class="simple-flow" aria-hidden="true">
+              <span class="tape neutral-tape">random program</span><span class="flow-arrow">→</span><span class="test-node">test</span>
+            </div>
+            <p>Draw once, test once, discard.</p>
+          </article>
+
+          <article class="regime regime-r">
+            <header><span class="regime-letter">R</span><div><h3>Population-coupled soup</h3><p>standard BFF</p></div></header>
+            <div class="split-flow" aria-hidden="true">
+              <div class="tape-pair"><span class="tape partner-tape">program A</span><span class="tape focal-tape">program B</span></div>
+              <span class="flow-label">concatenate · execute · split</span>
+              <div class="tape-pair"><span class="tape partner-tape kept">offspring A</span><span class="tape focal-tape kept">offspring B</span></div>
+            </div>
+            <p>Both post-execution halves return to the evolving soup.</p>
+          </article>
+
+          <article class="regime regime-n">
+            <header><span class="regime-letter">N</span><div><h3>Random-partner execution</h3><p>fresh independent partner</p></div></header>
+            <div class="split-flow" aria-hidden="true">
+              <div class="tape-pair"><span class="tape focal-tape">program A</span><span class="tape partner-tape fresh">random program</span></div>
+              <span class="flow-label">concatenate · execute · split</span>
+              <div class="tape-pair"><span class="tape focal-tape kept">offspring A</span><span class="tape partner-tape discarded">discarded</span></div>
+            </div>
+            <p>Offspring A replaces program A and persists. The other half is discarded, and a fresh random partner is sampled for the next interaction.</p>
+          </article>
+        </div>
+      </figure>
+    </section>
+
+    <section id="reconstruction" class="section shell emergence-section" aria-labelledby="emergence-title">
+      <div class="section-intro">
+        <h2 id="emergence-title">Watch a replicator form</h2>
+
+        <p>
+          We reconstructed 100 interactions in which a non-replicating program became a replicator.
+          In <strong>88 of 100</strong>, the same formation pathway dominated:
+          concatenating the two programs completed a short copying loop across their boundary,
+          and repeated execution of that loop rewrote <strong>32–64 bytes</strong> of the focal program
+          into a replicator in a single interaction.
+          We call this cross-boundary copying structure the <strong>pre-replicator loop</strong>.
+        </p>
+
+        <p>
+          Across all three discovery regimes, every replicator we observed belonged to the same
+          <strong>reverse-copy class</strong>: it writes a reversed copy of itself onto the other tape,
+          and executing that reversed copy in a later interaction reconstructs the original program.
+          No other replication mechanism was observed.
+        </p>
+
+        <p>
+          The interactive demo below steps through a representative interaction,
+          from the moment the pre-replicator loop is completed at the boundary
+          to the finished replicator.
+        </p>
+      </div>
+
+      <figure class="trace-figure">
+        <div class="trace-topline">
+          <div class="tape-legend" aria-label="Tape color key">
+            <span><i class="swatch partner"></i>partner · left</span>
+            <span><i class="swatch focal"></i>target · right</span>
+            <span><i class="swatch changed"></i>write</span>
+          </div>
+          <div class="trace-meta">
+            <span id="trace-status" class="trace-status">loop completed</span>
+            <span id="trace-step-label" class="mono trace-step-label">step 0 / 307</span>
+          </div>
+        </div>
+
+        <div id="trace-visual" class="trace-visual" aria-live="polite"></div>
+
+        <div class="trace-readout" aria-label="Current execution state">
+          <div><span class="marker marker-ip"></span><b>IP</b><span id="readout-ip" class="mono">0 [</span></div>
+          <div><span class="marker marker-h0"></span><b>H0</b><span id="readout-h0" class="mono">0</span></div>
+          <div><span class="marker marker-h1"></span><b>H1</b><span id="readout-h1" class="mono">0</span></div>
+        </div>
+
+        <div class="trace-controls">
+          <button id="trace-reset" class="button quiet" type="button">Reset</button>
+          <button id="trace-prev" class="button quiet" type="button">← Phase</button>
+          <button id="trace-play" class="button solid" type="button" aria-pressed="false">Play</button>
+          <label class="sr-only" for="trace-slider">Execution step</label>
+          <input id="trace-slider" type="range" min="0" max="307" value="0" step="1" />
+          <button id="trace-next" class="button quiet" type="button">Phase →</button>
+        </div>
+
+        <figcaption class="phase-caption">
+          <span id="phase-count" class="phase-count">1 / 4</span>
+          <div><h3 id="phase-title">The loop is completed at the boundary.</h3><p id="phase-copy">The partner fragment meets the target tape’s closing bracket after concatenation, forming the pre-replicator loop.</p></div>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section
+      id="construction"
+      class="section shell construction-section"
+      aria-labelledby="construction-title"
+    >
+      <div class="section-intro">
+        <h2 id="construction-title">From loop to replicator</h2>
+
+        <p>
+          The reconstruction above shows that the dominant formation pathway is not a gradual
+          accumulation of the full nine-instruction core. Instead, a five-instruction partner
+          fragment combines with one instruction from the target to form a six-instruction
+          copying loop, and execution then jumps directly from that short structure to the
+          nine-instruction replicator core.
+        </p>
+
+        <p>
+          In the representative interaction above, the partner supplies the five-instruction
+          fragment <code>[ &lt; } , }</code>, the target supplies the closing <code>]</code>,
+          and together they form the pre-replicator loop
+          <code>[ &lt; } , } ]</code>. Executing that loop then rewrites the target into a
+          reverse-copy replicator in a single interaction.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p>
+          This is the important constructive role of BFF execution. On the partner side,
+          the system only needs access to the much shorter five-instruction fragment;
+          once that fragment meets a suitable target program, execution can perform the
+          larger transformation that creates the replicator.
+        </p>
+
+        <p>
+          That short fragment is also relatively easy to encounter. Even under a deliberately
+          restrictive estimate, it occurs about
+          <strong id="fragment-one-in">once per 1.5 million</strong>
+          uniformly sampled programs — roughly an
+          <strong id="fragment-epoch-chance">8%</strong>
+          chance of encountering at least one in a soup-sized batch of
+          2<sup>17</sup> programs. In N, fresh random partners can therefore supply this
+          structure repeatedly over the course of a run, without the partner population
+          having to evolve toward a complete replicator. By N's median first-discovery time,
+          about <strong>53 occurrences</strong> of this one canonical fragment are expected
+          in the relevant interaction orientation.
+        </p>
+      </div>
+    </section>
+
+    <section class="section shell mechanism-section" aria-labelledby="mechanism-title">
+      <div class="section-intro">
+        <h2 id="mechanism-title">Why is R slower than N?</h2>
+
+        <p>
+          N and R use the same BFF execution rule and usually create replicators
+          through the same dominant pathway, yet discovery is consistently less
+          frequent in R. N maintains a relatively high discovery-event rate throughout
+          the run, while R reaches its highest rate early, around epochs 2,000–2,500,
+          and remains below N in every time bin.
+        </p>
+
+        <p>
+          The dominant pathway requires two things: a useful partner and a program
+          that can be converted by it. We measure these two requirements separately.
+        </p>
+      </div>
+
+      <div class="line-legend" aria-label="Regime color key">
+        <span><i class="line n"></i>N</span>
+        <span><i class="line r"></i>R</span>
+      </div>
+
+      <figure class="discovery-histogram">
+        <figcaption class="metric-heading">
+          <strong>Replicator discovery over time</strong>
+          <span>discovery events per eligible run, by epoch bin</span>
+        </figcaption>
+
+        <div
+          id="first-discovery-histogram"
+          class="chart"
+          role="img"
+          aria-label="Replicator discovery events per eligible run over time for N and R">
+        </div>
+      </figure>
+
+      <div class="diagnostic-block">
+        <div class="diagnostic-copy">
+          <p>
+            <strong>Are useful partners scarce in R?</strong>
+            We hold programs from reconstructed formation events fixed and count
+            candidate partners that can turn at least one of them into a replicator.
+          </p>
+
+          <p>
+            The N baseline stays roughly constant. R rises well above it from about
+            epochs 1,500–6,000, reaching its highest availability around epoch 3,500–4,000.
+            After roughly epoch 6,000, availability in R falls below N and remains
+            lower for most of the rest of the run.
+          </p>
+
+          <p>
+            R's lower discovery rate therefore occurs despite a substantial period
+            in which it has <strong>more qualifying partners</strong> than N.
+          </p>
+        </div>
+
+        <figure class="metric-figure">
+          <figcaption class="metric-heading">
+            <strong>Pre-replicator availability <em>M(t)</em></strong>
+            <span>mean qualifying partners per run at epoch <em>t</em></span>
+          </figcaption>
+
+          <div
+            id="motif-chart"
+            class="chart"
+            role="img"
+            aria-label="Mean number of functionally useful partner programs per run as a function of epoch for N and R">
+          </div>
+        </figure>
+      </div>
+
+      <div class="diagnostic-block">
+        <div class="diagnostic-copy">
+          <p>
+            <strong>Can the evolving programs use those partners?</strong>
+            We reverse the assay: successful partner programs are held fixed, and
+            we measure the fraction of evolving programs that at least one of those
+            partners can convert into a replicator.
+          </p>
+
+          <p>
+            Activation is initially similar in the two regimes, with R briefly rising
+            above N. It then drops sharply: around epochs 3,000–5,000, almost none of
+            the tested R programs are activatable. Activation later recovers, but
+            remains below N for the rest of the observed run.
+          </p>
+
+          <p>
+            This creates the key contrast: for part of the run, R has
+            <strong>more useful partners but less activatable programs</strong>.
+          </p>
+        </div>
+
+        <figure class="metric-figure">
+          <figcaption class="metric-heading">
+            <strong>Activation probability <em>A(t)</em></strong>
+            <span>fraction of tested programs activatable at epoch <em>t</em></span>
+          </figcaption>
+
+          <div
+            id="activation-chart"
+            class="chart"
+            role="img"
+            aria-label="Fraction of programs activatable by fixed partner programs as a function of epoch for N and R">
+          </div>
+        </figure>
+      </div>
+
+      <div class="mechanism-takeaway">
+        <p>
+          <strong>R can have more useful partners and still discover fewer replicators.</strong>
+          During this interval, the clearest measured difference is lower activation.
+          Later, both partner availability and activation are lower in R.
+        </p>
+        <p>
+          <strong>One possible explanation is disruption during execution.</strong>
+          R evolves a much denser population of executable instructions: by epoch 4,000,
+          BFF instructions make up about <strong>20% of bytes in R</strong>, compared with
+          <strong>less than 8% in N</strong>, with strong enrichment of movement
+          (<code>&lt;</code>, <code>&gt;</code>) and copy (<code>,</code>) instructions.
+          These surrounding instructions can move the heads or overwrite bytes before the
+          pre-replicator loop completes its copy trajectory, potentially disrupting an
+          otherwise successful conversion. This provides a plausible mechanism, but the
+          causal link has not been isolated directly.
+        </p>
+      </div>
+    </section>
+
+    <section class="section shell closing-section" aria-labelledby="closing-title">
+      <div class="section-intro">
+        <h2 id="closing-title">The constructive role of execution</h2>
+
+        <p>
+          Our results reveal a simple constructive mechanism:
+          a six-instruction copying loop can launch the construction of an entire
+          self-replicating program. Once completed across the interaction boundary,
+          the loop initiates a copying trajectory that rewrites 32–64 bytes and
+          produces a functional reverse-copy replicator in a single execution.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p>
+          N makes this especially clear. Its interaction partners are sampled independently,
+          used once, and discarded, yet they repeatedly provide enough structure for execution
+          to complete the transformation. Execution therefore reduces how much of the final
+          replicator structure must already be present before the constructive step can occur.
+        </p>
+
+        <p>
+          How far this mechanism scales remains open. The reverse-copy replicators studied here
+          have a very short functional core, and the precursor structures required for more
+          complex replicators may become much harder to encounter. Importantly, we observe this
+          mechanism in the emergence phase, before self-replication has become an established
+          population-level process. This raises a broader question: can execution dynamics
+          continue to turn relatively accessible precursor structures into increasingly complex
+          self-replicators before replication itself is available to drive their propagation
+          and refinement?
+        </p>
+      </div>
+    </section>
+
+    <section id="paper" class="paper-section" aria-labelledby="paper-title">
+      <div class="shell paper-grid">
+        <div>
+          <p class="paper-label">Paper</p>
+          <h2 id="paper-title">Replicator Discovery Is Faster Without Population Coupling in a Self-Modifying Program Soup</h2>
+          <p class="authors">
+            <a href="https://fit.cvut.cz/en/faculty/people/19200-frantisek-dusek"
+              target="_blank"
+              rel="noreferrer">
+              František Dušek
+            </a>
+            ·
+            <a href="https://vassi.life/"
+              target="_blank"
+              rel="noreferrer">
+              Vassilis Papadopoulos
+            </a>
+            ·
+            <a href="https://www.barahudcova.com/"
+              target="_blank"
+              rel="noreferrer">
+              Barbora Hudcová
+            </a>
+          </p>
+        </div>
+        <nav class="paper-actions" aria-label="Paper and project resources">
+          <span class="link-placeholder" title="Public paper URL is not present in the clean repository">Proceedings PDF <small>forthcoming</small></span>
+          <a href="https://github.com/koutefra/execution-induced-priors-bff" target="_blank" rel="noreferrer">Code repository <span>↗</span></a>
+          <button id="citation-button" class="button quiet" type="button" disabled>Copy BibTeX</button>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer shell"><a href="#page-title">Back to top ↑</a></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

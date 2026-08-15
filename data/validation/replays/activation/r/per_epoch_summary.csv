@@ -1,0 +1,7 @@
+regime,seed,epoch,partner_id,hits_at_epoch,tested_at_epoch,hit_fraction_at_epoch
+R,0,1,1,0,128,0
+R,0,1,2,1,128,0.0078125
+R,0,2,1,0,128,0
+R,0,2,2,1,128,0.0078125
+R,0,3,1,0,128,0
+R,0,3,2,1,128,0.0078125

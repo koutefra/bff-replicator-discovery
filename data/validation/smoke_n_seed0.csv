@@ -1,0 +1,4 @@
+epoch,brotli_size,soup_size,higher_entropy,number_selfreps,selfrep_tapes,selfrep_scores,count_op_<,count_op_>,count_op_{,count_op_},count_op_+,count_op_-,count_op_.,"count_op_,",count_op_[,count_op_],count_zero,mean_step_count_per_interaction,frac_term_step_cap,frac_term_ip_out_of_bounds,frac_term_bracket_mismatch
+1,8196,128,-0.025828,0,"[]","[]",29,26,29,31,36,29,33,23,41,27,38,507.445312,0.000000,0.750000,0.250000
+2,8196,128,-0.025278,0,"[]","[]",28,27,28,31,36,29,33,23,42,26,38,698.242188,0.000000,0.750000,0.250000
+3,8196,128,-0.026052,0,"[]","[]",28,26,29,32,34,29,32,48,40,26,40,648.929688,0.000000,0.750000,0.250000

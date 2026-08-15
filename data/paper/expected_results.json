@@ -1,0 +1,39 @@
+{
+  "configuration": {
+    "epochs": 16000,
+    "program_length": 64,
+    "replication_score_threshold": 60.0,
+    "runs_per_regime": 100,
+    "soup_size": 131072,
+    "takeover_window_epochs": 500
+  },
+  "discovery": {
+    "N_discovered": 100,
+    "N_median_epoch": 1220.0,
+    "R_discovered": 99,
+    "R_median_epoch": 2453
+  },
+  "discovery_events": {
+    "N_events_per_run": 8.19,
+    "N_total": 819,
+    "R_conditioned_total": 301,
+    "R_exposure_normalized_sum": 3.9765831984785227
+  },
+  "takeover": {
+    "figure_cutoff_overrides": {
+      "19": 4770,
+      "89": 750,
+      "96": 600
+    },
+    "mean_epoch": 6075.977777777778,
+    "non_takeover_runs": 55,
+    "runs": 45
+  },
+  "uniform": {
+    "median_epochs": 73935.71009090493,
+    "per_program_probability": 7.152557373046874e-11,
+    "replicators": 15,
+    "samples": 209715200000
+  },
+  "uniform_rewrite_rate_ratio_N_over_R": 3.4840000000000004
+}

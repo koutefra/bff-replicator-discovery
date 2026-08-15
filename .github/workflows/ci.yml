@@ -1,0 +1,29 @@
+name: reproducibility-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpu-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libbrotli-dev
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      - name: Build CPU simulator
+        run: make CUDA=0
+      - name: Validate committed paper data
+        run: make validate
+      - name: Regenerate paper figures
+        run: make figures
+      - name: Compare smoke runs with reference excerpts
+        run: make smoke
+      - name: Build static website
+        run: make website

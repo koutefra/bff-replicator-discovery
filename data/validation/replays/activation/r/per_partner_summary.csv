@@ -1,0 +1,3 @@
+regime,seed,partner_id,partner_group,total_hits,total_tested,hit_fraction
+R,0,1,"N-derived",0,384,0
+R,0,2,"N-derived",3,384,0.0078125

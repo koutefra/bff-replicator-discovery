@@ -1,0 +1,7 @@
+regime,seed,epoch,fixed_id,hits_at_epoch,tested_at_epoch,hit_fraction_at_epoch
+N,0,1,1,0,128,0
+N,0,1,2,0,128,0
+N,0,2,1,0,128,0
+N,0,2,2,0,128,0
+N,0,3,1,0,128,0
+N,0,3,2,0,128,0

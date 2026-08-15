@@ -1,0 +1,3 @@
+label,mode,seed,threshold,total_interactions,event_interactions,event_interaction_fraction,event_tapes,event_tapes_per_epoch,both_tapes_same_interaction,mean_max_run_per_epoch,max_run_observed,epochs_with_any_event
+N,random,100,30,1600000,871,0.000544375,871,0.0544375,0,4.4475625,64,848
+R,interaction,100,30,800000,125,0.00015625,125,0.0078125,0,3.603375,64,125

@@ -1,0 +1,38 @@
+{
+  "events": 100,
+  "regimes": {
+    "N": {
+      "changed_bytes_max": 64,
+      "changed_bytes_median": 64,
+      "changed_bytes_min": 32,
+      "copy_no_arithmetic": 39,
+      "copy_only": 42,
+      "dominant_pathway": 43,
+      "dynamic_classes": {
+        "CROSS_TAPE_FOCAL_CLOSE": 39,
+        "NO_PROTO_FOUND": 10,
+        "PARTNER_COMPLETE_LOOP": 1
+      },
+      "events": 50,
+      "exact_replays": 50,
+      "focal_on_right": 50,
+      "strict_pre_replicator": 39
+    },
+    "R": {
+      "changed_bytes_max": 64,
+      "changed_bytes_median": 63,
+      "changed_bytes_min": 0,
+      "copy_no_arithmetic": 43,
+      "copy_only": 45,
+      "dominant_pathway": 45,
+      "dynamic_classes": {
+        "CROSS_TAPE_FOCAL_CLOSE": 39,
+        "NO_PROTO_FOUND": 11
+      },
+      "events": 50,
+      "exact_replays": 50,
+      "focal_on_right": 48,
+      "strict_pre_replicator": 39
+    }
+  }
+}

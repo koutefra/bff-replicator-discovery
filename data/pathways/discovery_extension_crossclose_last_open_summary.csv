@@ -1,0 +1,3 @@
+regime,events,focal_rhs_count,close_in_focal_count,strict_proto_count,copy_transport12_count,copy_nondis_count,copy_only_count
+N,50,50,48,39,41,39,42
+R,50,48,46,39,41,43,45
