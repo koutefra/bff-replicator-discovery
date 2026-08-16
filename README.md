@@ -108,3 +108,7 @@ docs/         detailed reproduction notes
 ## Acknowledgments and license
 
 The simulator in this repository is derived from the original [CuBFF implementation](https://github.com/paradigms-of-intelligence/cubff), published by the Paradigms of Intelligence project. We thank its authors for making the C++/CUDA code available. The derived files retain the original Google LLC copyright notices and are released under the Apache License 2.0.
+
+**AI-assisted development.** Generative-AI tools were used during development of this repository, including for implementation, refactoring, testing, and documentation.
+
+
