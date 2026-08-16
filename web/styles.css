@@ -665,13 +665,10 @@ body.present #present-deck {
 #present-deck .pd-body .wait-figure { max-width: min(760px, 74%); }
 #present-deck .pd-body .regime-figure { max-width: min(940px, 86%); }
 #present-deck .pd-body .discovery-histogram,
-#present-deck .pd-body .metric-figure { max-width: min(840px, 78%); }
+#present-deck .pd-body .metric-figure { max-width: min(940px, 86%); }
 
-#present-deck .pd-body .media-figure video,
-#present-deck .pd-body .media-figure figcaption {
-  max-width: min(900px, 100%);
-}
-#present-deck .pd-body .media-figure video { max-height: 58vh; }
+#present-deck .pd-body .media-figure video { max-width: min(900px, 100%); max-height: 58vh; }
+#present-deck .pd-body .media-figure figcaption { display: none; }
 
 /* Line/bar charts render their SVG viewBox at a fixed 4:1 (760x190)
    aspect ratio; without this, scaling the box wider than that just
