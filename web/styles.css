@@ -481,18 +481,22 @@ input[type="range"] { min-width: 80px; flex: 1; accent-color: var(--accent); }
   line-height: 1.24;
 }
 .authors { margin: 0; color: var(--muted); font-size: .92rem; }
+.dim { margin: 10px 0 0; color: var(--quiet); font-size: .82rem; }
 .paper-actions { display: grid; }
-.paper-actions a, .link-placeholder {
+.paper-actions a, .paper-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 9px 0;
   border-bottom: 1px solid var(--rule);
   color: var(--muted);
   font-size: .9rem;
-  text-decoration: none;
 }
+.paper-actions a { text-decoration: none; }
 .paper-actions a:hover { color: var(--ink); }
-.link-placeholder small { color: var(--quiet); }
+.paper-actions a small, .paper-row a small { color: var(--quiet); }
+.paper-row a { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); text-decoration: none; }
+.paper-row a:hover { color: var(--ink); }
 .paper-actions .button { margin-top: 13px; justify-self: start; }
 
 .footer {
@@ -579,13 +583,167 @@ input[type="range"] { min-width: 80px; flex: 1; accent-color: var(--accent); }
   }
 }
 
-/* Present mode: ?present in the URL. Trims prose to one lead line per
-   section, keeping headings and figures. Add class="keep" to any
-   paragraph that should stay visible. */
-body.present .section-intro p:not(:first-of-type),
-body.present .diagnostic-copy p:not(:first-of-type),
-body.present .mechanism-takeaway p:not(:first-of-type),
-body.present .prose p:not(.keep),
-body.present .hero-finding:not(.keep) { display: none; }
+/* Present mode: ?present in the URL. .present-only bullet lists are kept
+   out of the normal page flow but picked up by the present deck below;
+   the rest hides internal chrome on figures the deck reuses (regime
+   cards, the trace demo) so they read cleanly as slide content. */
+.present-only { display: none; }
 
-body.present { font-size: 1.15rem; }
+body.present .present-only { display: block; }
+
+body.present .regime > p,
+body.present .trace-topline,
+body.present .trace-note,
+body.present .phase-caption,
+body.present #trace-prev,
+body.present #trace-next { display: none; }
+
+/* Present deck: full-screen slide view, arrow-key navigated. Replaces the
+   normal page chrome entirely while ?present is active. */
+#present-deck { display: none; }
+
+body.present .skip-link,
+body.present > header,
+body.present > main,
+body.present > footer,
+body.present > #toast { display: none; }
+
+body.present #present-deck {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--paper);
+}
+
+#present-deck .pd-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 44px);
+  padding: clamp(20px, 3.5vw, 48px);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+}
+#present-deck .pd-slide.active { opacity: 1; visibility: visible; }
+
+#present-deck .pd-slide h2 {
+  margin: 0;
+  max-width: min(1200px, 88vw);
+  color: var(--ink);
+  text-align: center;
+  font-size: clamp(26px, 3.6vw, 42px);
+  font-weight: 680;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+#present-deck .pd-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: min(1280px, 84vw);
+}
+
+#present-deck .pd-body figure,
+#present-deck .pd-body .wait-figure,
+#present-deck .pd-body .trace-figure,
+#present-deck .pd-body .regime-figure,
+#present-deck .pd-body .discovery-histogram,
+#present-deck .pd-body .metric-figure {
+  width: 100%;
+  max-width: 100%;
+}
+#present-deck .pd-body .wait-figure { max-width: min(760px, 74%); }
+#present-deck .pd-body .regime-figure { max-width: min(940px, 86%); }
+#present-deck .pd-body .discovery-histogram,
+#present-deck .pd-body .metric-figure { max-width: min(840px, 78%); }
+
+#present-deck .pd-body .media-figure video,
+#present-deck .pd-body .media-figure figcaption {
+  max-width: min(900px, 100%);
+}
+#present-deck .pd-body .media-figure video { max-height: 58vh; }
+
+/* Line/bar charts render their SVG viewBox at a fixed 4:1 (760x190)
+   aspect ratio; without this, scaling the box wider than that just
+   letterboxes the chart instead of enlarging it. */
+#present-deck .pd-body .chart {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 4 / 1;
+}
+#present-deck .pd-body .chart svg { height: 100%; }
+
+#present-deck .pd-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.6vw, 28px);
+  max-width: min(1000px, 100%);
+}
+#present-deck .pd-body ul li {
+  position: relative;
+  padding-left: 32px;
+  color: var(--ink);
+  font-size: clamp(19px, 2.3vw, 28px);
+  line-height: 1.45;
+}
+#present-deck .pd-body ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .5em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+#present-deck .pd-intro .pd-body { gap: 18px; }
+#present-deck .pd-intro h1 {
+  margin: 0;
+  max-width: min(1050px, 88vw);
+  text-align: center;
+  font-size: clamp(40px, 5.8vw, 68px);
+}
+#present-deck .pd-intro .site-id {
+  color: var(--muted);
+  font: 650 1rem/1 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+#present-deck .pd-intro .authors {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 1.15rem;
+}
+
+#present-deck .pd-qr img {
+  width: min(42vh, 300px);
+  height: auto;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: #fff;
+}
+#present-deck .pd-qr p { margin: 0; color: var(--muted); font-size: 1.05rem; }
+
+#present-deck .pd-counter {
+  position: fixed;
+  right: 22px;
+  bottom: 18px;
+  color: var(--quiet);
+  font: 600 .8rem/1 var(--mono);
+}

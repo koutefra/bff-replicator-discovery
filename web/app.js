@@ -74,7 +74,7 @@ async function loadData() {
 
 function initMedia() {
   const videos = $$(".explanatory-video[data-autoplay]");
-  if (reducedMotion) {
+  if (reducedMotion || document.body.classList.contains("present")) {
     videos.forEach((video) => video.pause());
     return;
   }
@@ -700,12 +700,15 @@ function initReferenceCalculation(reference) {
 }
 
 function initCitation() {
-  const bibtex = "@article{dusek2026replicator,\n" +
-    "  title={Replicator Discovery Is Faster Without Population Coupling in a Self-Modifying Program Soup},\n" +
-    "  author={Dušek, František and Papadopoulos, Vassilis and Hudcová, Barbora},\n" +
-    "  year={2026},\n" +
-    "  note={Manuscript}\n" +
-    "}";
+  const bibtex = `@inproceedings{dusek2026replicator,
+  author    = {Dušek, František and Papadopoulos, Vassilis and Hudcová, Barbora},
+  title     = {Replicator Discovery Is Faster Without Population Coupling in a Self-Modifying Program Soup},
+  booktitle = {Proceedings of the 27th Conference on Artificial Life (ALIFE 2026)},
+  pages     = {478--486},
+  year      = {2026},
+  publisher = {MIT Press},
+  url       = {https://github.com/emerging-researchers-alife/conference_proceedings/raw/refs/heads/main/ALIFE2026Proceedings.pdf?download=}
+}`;
   $("#citation-button").addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(bibtex);
@@ -725,6 +728,72 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
 }
 
+function initPresentDeck() {
+  if (!document.body.classList.contains("present")) return;
+  const deck = $("#present-deck");
+  if (!deck) return;
+
+  const put = (node, slideNum) => {
+    if (!node) return;
+    const body = $('.pd-slide[data-slide="' + slideNum + '"] .pd-body', deck);
+    if (body) body.appendChild(node);
+  };
+  const cloneLegend = () => {
+    const legend = $(".line-legend");
+    return legend ? legend.cloneNode(true) : null;
+  };
+
+  put($(".site-id"), 1);
+  put($("#page-title"), 1);
+  put($(".authors"), 1);
+  put($(".wait-figure"), 2);
+  put($(".intro-section .media-figure"), 3);
+  put($(".selftest-section .media-figure"), 4);
+  put($(".knierim-section .present-only"), 5);
+  put($(".regime-figure"), 6);
+  put($(".emergence-section .section-intro .present-only"), 7);
+  put($(".trace-figure"), 8);
+  put(cloneLegend(), 9);
+  put($("#first-discovery-histogram")?.closest("figure"), 9);
+  put(cloneLegend(), 10);
+  put($("#motif-chart")?.closest("figure"), 10);
+  put(cloneLegend(), 11);
+  put($("#activation-chart")?.closest("figure"), 11);
+
+  const slides = $$(".pd-slide", deck);
+  const counter = $(".pd-counter", deck);
+  let current = 0;
+
+  function show(index) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    slides.forEach((slide, i) => {
+      const active = i === current;
+      slide.classList.toggle("active", active);
+      $$("video", slide).forEach((video) => {
+        if (active) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    });
+    if (counter) counter.textContent = (current + 1) + " / " + slides.length;
+  }
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight" || event.key === "ArrowDown" || event.key === " ") {
+      event.preventDefault();
+      show(current + 1);
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      event.preventDefault();
+      show(current - 1);
+    }
+  });
+
+  show(0);
+}
+
 async function main() {
   initMedia();
   try {
@@ -734,6 +803,7 @@ async function main() {
     initReferenceCalculation(data.referenceCalculation);
     initMechanism(data.mechanism);
     initCitation();
+    initPresentDeck();
   } catch (error) {
     console.error(error);
     document.body.insertAdjacentHTML(

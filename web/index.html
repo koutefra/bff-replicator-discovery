@@ -15,7 +15,7 @@
 
   <header class="hero shell" aria-labelledby="page-title">
     <div class="site-bar">
-      <span class="site-id">Interactive companion</span>
+      <span class="site-id">ALIFE 2026</span>
       <nav aria-label="Page links">
         <a href="https://github.com/koutefra/execution-induced-priors-bff" target="_blank" rel="noreferrer">source ↗</a>
       </nav>
@@ -106,6 +106,11 @@
           and what does execution actually do when a replicator is created?</strong>
           We address that mechanism directly.
         </p>
+        <ul class="present-only">
+          <li>Knierim et al.: well-tuned stochastic search matches BFF soup's discovery rate</li>
+          <li>So execution isn't uniquely efficient — once sampling favors useful regions</li>
+          <li>Open question: why is execution still so much faster than uniform sampling, and what does it actually do?</li>
+        </ul>
       </div>
     </section>
 
@@ -191,6 +196,12 @@
           from the moment the pre-replicator loop is completed at the boundary
           to the finished replicator.
         </p>
+        <ul class="present-only">
+          <li>100 replicator-forming interactions reconstructed</li>
+          <li>88/100 shared one pathway: a short cross-boundary loop rewrote 32–64 bytes in a single interaction</li>
+          <li>This structure is the pre-replicator loop</li>
+          <li>Every replicator observed: same reverse-copy class, no exceptions</li>
+        </ul>
       </div>
 
       <figure class="trace-figure">
@@ -290,7 +301,7 @@
 
         <p>
           The mechanism needs two things: a partner carrying a pre-replicator fragment, and
-          a program that partner can convert. Comparing N and R separates them. Both regimes
+          a program that partner can activate. Comparing N and R separates them. Both regimes
           use the same BFF execution rule and create replicators through the same dominant
           pathway, yet discovery is consistently less frequent in R. N maintains a
           relatively high discovery-event rate throughout the run, while R reaches its
@@ -364,7 +375,7 @@
             <strong>Can the evolving programs use those partners?</strong>
             We reverse the assay: successful partner programs are held fixed, and
             we measure the fraction of evolving programs that at least one of those
-            partners can convert into a replicator.
+            partners can activate into a replicator.
           </p>
 
           <p>
@@ -397,10 +408,9 @@
 
       <div class="mechanism-takeaway">
         <p>
-          <strong>R can have more useful partners and still discover fewer replicators.</strong>
-          During this interval, the clearest measured difference is lower activation.
+          During the interval in which R have more useful partners but still discover fewer replicators, the clearest measured difference is lower activation.
           Later, both partner availability and activation are lower in R.
-          Supplying the fragment is not sufficient; the program that meets it also has to be convertible.
+          Supplying the fragment is not sufficient; the program that meets it also has to be activatable.
         </p>
         <p>
           <strong>One possible explanation is disruption during execution.</strong>
@@ -410,8 +420,7 @@
           (<code>&lt;</code>, <code>&gt;</code>) and copy (<code>,</code>) instructions.
           These surrounding instructions can move the heads or overwrite bytes before the
           pre-replicator loop completes its copy trajectory, potentially disrupting an
-          otherwise successful conversion. This provides a plausible mechanism, but the
-          causal link has not been isolated directly.
+          otherwise successful activation.
         </p>
       </div>
     </section>
@@ -421,7 +430,7 @@
         <h2 id="closing-title">The constructive role of execution</h2>
 
         <p>
-          The replicator is not assembled gradually. In a single interaction, a precursor
+          The self-replicator is not assembled gradually. In a single interaction, a precursor
           roughly ten thousand times more common than a replicator launches a rewrite that
           produces one outright. The N regime shows why this matters: its interaction partners
           are sampled independently, used once, and discarded, yet they repeatedly provide
@@ -432,10 +441,10 @@
       <div class="prose">
         <p>
           But having the precursor is only half of it. It has to land on a program that can
-          be converted, and that is a property of the population, not of the precursor.
+          be activatable, and that is a property of the population, not of the precursor.
           R spends part of the run with more qualifying partners than N and still discovers
           fewer replicators, because what it evolves alongside them is a program distribution
-          that is harder to convert.
+          that is harder to activate.
         </p>
 
         <p class="keep">
@@ -445,7 +454,7 @@
         </p>
 
         <p>
-          This works here because the replicators are small: a nine-instruction core reached from a five-instruction precursor. A more complex replicator presumably needs a longer precursor, and longer precursors get rare fast, and a population that supplies them may not stay convertible.
+          This works here because the replicators are small: a nine-instruction core reached from a five-instruction precursor. A more complex replicator presumably needs a longer precursor, and longer precursors get rare fast, and a population that supplies them may not stay activatable.
         </p>
 
         <p class="keep">
@@ -481,11 +490,15 @@
               Barbora Hudcová
             </a>
           </p>
+          <p class="dim">Updated framing and additional analysis of the ALIFE 2026 paper.</p>
         </div>
         <nav class="paper-actions" aria-label="Paper and project resources">
-          <span class="link-placeholder" title="Public paper URL is not present in the clean repository">Proceedings PDF <small>forthcoming</small></span>
+          <div class="paper-row">
+            <span>Proceedings version</span>
+            <a href="https://github.com/emerging-researchers-alife/conference_proceedings/raw/refs/heads/main/ALIFE2026Proceedings.pdf?download=" target="_blank" rel="noreferrer"><small>pp. 478–486 · full volume</small> <span>↗</span></a>
+          </div>
           <a href="https://github.com/koutefra/execution-induced-priors-bff" target="_blank" rel="noreferrer">Code repository <span>↗</span></a>
-          <button id="citation-button" class="button quiet" type="button" disabled>Copy BibTeX</button>
+          <button id="citation-button" class="button quiet" type="button">Copy BibTeX</button>
         </nav>
       </div>
     </section>
@@ -493,5 +506,95 @@
 
   <footer class="footer shell"><a href="#page-title">Back to top ↑</a></footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <div id="present-deck" aria-hidden="true">
+    <section class="pd-slide pd-intro" data-slide="1">
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="2">
+      <h2>The Phenomenon</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="3">
+      <h2>BFF: programs rewrite one another</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="4">
+      <h2>How a program is classified as a replicator?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="5">
+      <h2>What does BFF accomplish?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="6">
+      <h2>Three discovery regimes</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="7">
+      <h2>How are replicators formed?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="8">
+      <h2>Watch a replicator form</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="9">
+      <h2>What limits this formation pathway?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="10">
+      <h2>Question: are the useful partners scarce in R?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="11">
+      <h2>Question: can R's evolving programs be activated by those partners?</h2>
+      <div class="pd-body"></div>
+    </section>
+
+    <section class="pd-slide" data-slide="12">
+      <h2>M(t) and A(t) together</h2>
+      <div class="pd-body">
+        <ul>
+          <li>M(t): not a shortage of partners — R often has more than N</li>
+          <li>A(t): more partners, fewer activatable targets</li>
+          <li>Together: R's bottleneck isn't partner supply — it's whether the programs it meets can be activated</li>
+          <li>Likely cause: R's denser, movement/copy-rich code disrupts the loop before it finishes</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pd-slide" data-slide="13">
+      <h2>Conclusion</h2>
+      <div class="pd-body">
+        <ul>
+          <li>Execution doesn't search for a replicator — it builds one from a much easier precursor</li>
+          <li>The precursor alone isn't enough; it has to meet a population it can activate</li>
+          <li>That's why more coupling (R) can mean fewer replicators despite more raw material</li>
+          <li>Open question: does this scale to longer, more complex replicators?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pd-slide" data-slide="14">
+      <h2>See it yourself</h2>
+      <div class="pd-body pd-qr">
+        <img src="assets/site-qr.svg" alt="QR code linking to koutefra.github.io/bff-replicator-discovery" width="260" height="260" />
+        <p class="mono">koutefra.github.io/bff-replicator-discovery</p>
+      </div>
+    </section>
+
+    <div class="pd-counter" aria-hidden="true"></div>
+  </div>
 </body>
 </html>
