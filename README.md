@@ -10,7 +10,7 @@ The three regimes used throughout the repository are:
 | N | Random-partner execution. A program persists while each interaction uses a fresh random partner. |
 | R | Population-coupled execution. Both interacting programs come from, and return to, the evolving soup. |
 
-The full raw runs are large, so the repository contains compact tables with every value needed to validate the reported results and rebuild the figures. The launchers for regenerating the raw runs are included as well.
+The full raw runs are large, so the repository contains compact tables with the data needed to reproduce the reported summary statistics and rebuild the figures. The launchers for regenerating the raw runs are included as well.
 
 ## Quick start
 
