@@ -18,6 +18,8 @@ const COLORS = {
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+if (new URLSearchParams(location.search).has("present")) document.body.classList.add("present");
 const formatInt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -695,8 +697,6 @@ function initReferenceCalculation(reference) {
   if (!reference) return;
   $("#fragment-one-in").textContent = "once per " +
     (reference.onePerPrograms / 1e6).toFixed(1) + " million";
-  const epochChance = 1 - Math.pow(1 - reference.probability, reference.partnersPerEpoch);
-  $("#fragment-epoch-chance").textContent = Math.round(epochChance * 100) + "%";
 }
 
 function initCitation() {

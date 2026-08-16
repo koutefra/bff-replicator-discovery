@@ -578,3 +578,14 @@ input[type="range"] { min-width: 80px; flex: 1; accent-color: var(--accent); }
     transition-duration: .001ms !important;
   }
 }
+
+/* Present mode: ?present in the URL. Trims prose to one lead line per
+   section, keeping headings and figures. Add class="keep" to any
+   paragraph that should stay visible. */
+body.present .section-intro p:not(:first-of-type),
+body.present .diagnostic-copy p:not(:first-of-type),
+body.present .mechanism-takeaway p:not(:first-of-type),
+body.present .prose p:not(.keep),
+body.present .hero-finding:not(.keep) { display: none; }
+
+body.present { font-size: 1.15rem; }

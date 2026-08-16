@@ -329,7 +329,7 @@ def build_trace(repo_root: Path) -> dict[str, object]:
             0,
             0,
             0,
-            "The focal closing bracket completes a pre-replicator loop across the interaction boundary.",
+            "The pre-replicator fragment on the partner tape meets the target tape’s closing bracket after concatenation, forming the pre-replicator loop.",
         ),
         (
             "reverse-construction",
