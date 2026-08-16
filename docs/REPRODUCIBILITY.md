@@ -36,7 +36,7 @@ make figures
 make website
 ```
 
-`make validate` checks the headline statistics, controlled-replay summaries, pathway counts, operator tables, rewrite ratio, and the values used by the website. `make figures` rebuilds all four paper PDFs. `make website` creates `web/dist/`.
+`make validate` recomputes the N and R discovery medians from the committed per-run data, checks the replicator and event counts, the rewrite ratio, and that the website data matches the paper data. Other committed summaries are checked for presence and shape. `make figures` rebuilds all four paper PDFs. `make website` creates `web/dist/`.
 
 To check the simulator itself on a CPU:
 
