@@ -727,6 +727,15 @@ body.present #present-deck {
   font-size: 1.15rem;
 }
 
+#present-deck .pd-note {
+  margin: 0;
+  max-width: min(940px, 86%);
+  color: var(--ink);
+  text-align: center;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.4;
+}
+
 #present-deck .pd-qr img {
   width: min(42vh, 300px);
   height: auto;
