@@ -633,10 +633,10 @@ body.present #present-deck {
 
 #present-deck .pd-slide h2 {
   margin: 0;
-  max-width: min(1200px, 88vw);
+  max-width: min(1260px, 90vw);
   color: var(--ink);
   text-align: center;
-  font-size: clamp(26px, 3.6vw, 42px);
+  font-size: clamp(30px, 4vw, 48px);
   font-weight: 680;
   letter-spacing: -.02em;
   line-height: 1.2;
@@ -648,9 +648,9 @@ body.present #present-deck {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 26px;
   width: 100%;
-  max-width: min(1280px, 84vw);
+  max-width: min(1360px, 88vw);
 }
 
 #present-deck .pd-body figure,
@@ -662,13 +662,43 @@ body.present #present-deck {
   width: 100%;
   max-width: 100%;
 }
-#present-deck .pd-body .wait-figure { max-width: min(760px, 74%); }
-#present-deck .pd-body .regime-figure { max-width: min(940px, 86%); }
+#present-deck .pd-body .wait-figure { max-width: min(840px, 78%); padding: 24px 28px; }
+#present-deck .pd-body .regime-figure { max-width: min(1020px, 90%); }
 #present-deck .pd-body .discovery-histogram,
-#present-deck .pd-body .metric-figure { max-width: min(940px, 86%); }
+#present-deck .pd-body .metric-figure { max-width: min(1020px, 90%); }
 
-#present-deck .pd-body .media-figure video { max-width: min(900px, 100%); max-height: 58vh; }
+#present-deck .pd-body .media-figure video { max-width: min(980px, 100%); max-height: 64vh; }
 #present-deck .pd-body .media-figure figcaption { display: none; }
+
+/* Median-wait component: bigger labels/values and thicker bars. */
+#present-deck .pd-body .figure-heading { font-size: 1rem; margin-bottom: 22px; }
+#present-deck .pd-body .waiting-chart { gap: 18px; }
+#present-deck .pd-body .wait-row { grid-template-columns: 300px 1fr 170px; gap: 20px; }
+#present-deck .pd-body .wait-label { font-size: 1.15rem; }
+#present-deck .pd-body .wait-label b { width: 22px; font-size: 1.05rem; }
+#present-deck .pd-body .wait-track { height: 13px; }
+#present-deck .pd-body .wait-value { font-size: 1.12rem; }
+#present-deck .pd-body .wait-value small { font-size: .95rem; }
+
+/* Regime cards: bigger card text and flow-diagram content. */
+#present-deck .pd-body .regime { padding: 22px; }
+#present-deck .pd-body .regime header { min-height: 56px; }
+#present-deck .pd-body .regime-letter { font-size: 1.25rem; }
+#present-deck .pd-body .regime header h3 { font-size: 1.18rem; }
+#present-deck .pd-body .regime header p { font-size: .98rem; }
+#present-deck .pd-body .simple-flow,
+#present-deck .pd-body .split-flow { min-height: 155px; }
+#present-deck .pd-body .tape-pair { max-width: 320px; }
+#present-deck .pd-body .tape,
+#present-deck .pd-body .test-node { padding: 9px 9px; font-size: .85rem; }
+#present-deck .pd-body .flow-arrow,
+#present-deck .pd-body .flow-label { font-size: .9rem; }
+
+/* Line/bar chart captions and legend. */
+#present-deck .pd-body .line-legend { font-size: 1.05rem; margin-bottom: 20px; }
+#present-deck .pd-body .line { width: 22px; height: 3px; }
+#present-deck .pd-body .metric-heading strong { font-size: 1.05rem; }
+#present-deck .pd-body .metric-heading span { font-size: 1rem; }
 
 /* Line/bar charts render their SVG viewBox at a fixed 4:1 (760x190)
    aspect ratio; without this, scaling the box wider than that just
@@ -686,14 +716,14 @@ body.present #present-deck {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 2.6vw, 28px);
-  max-width: min(1000px, 100%);
+  gap: clamp(20px, 2.8vw, 32px);
+  max-width: min(1080px, 100%);
 }
 #present-deck .pd-body ul li {
   position: relative;
-  padding-left: 32px;
+  padding-left: 36px;
   color: var(--ink);
-  font-size: clamp(19px, 2.3vw, 28px);
+  font-size: clamp(22px, 2.6vw, 32px);
   line-height: 1.45;
 }
 #present-deck .pd-body ul li::before {
@@ -701,22 +731,22 @@ body.present #present-deck {
   position: absolute;
   left: 0;
   top: .5em;
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--accent);
 }
 
-#present-deck .pd-intro .pd-body { gap: 18px; }
+#present-deck .pd-intro .pd-body { gap: 20px; }
 #present-deck .pd-intro h1 {
   margin: 0;
-  max-width: min(1050px, 88vw);
+  max-width: min(1120px, 90vw);
   text-align: center;
-  font-size: clamp(40px, 5.8vw, 68px);
+  font-size: clamp(46px, 6.4vw, 76px);
 }
 #present-deck .pd-intro .site-id {
   color: var(--muted);
-  font: 650 1rem/1 var(--mono);
+  font: 650 1.1rem/1 var(--mono);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -724,27 +754,27 @@ body.present #present-deck {
   margin: 0;
   text-align: center;
   color: var(--muted);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 #present-deck .pd-note {
   margin: 0;
-  max-width: min(940px, 86%);
+  max-width: min(1000px, 88%);
   color: var(--ink);
   text-align: center;
-  font-size: clamp(18px, 2vw, 24px);
+  font-size: clamp(20px, 2.3vw, 27px);
   line-height: 1.4;
 }
 
 #present-deck .pd-qr img {
-  width: min(42vh, 300px);
+  width: min(46vh, 330px);
   height: auto;
   padding: 16px;
   border: 1px solid var(--rule);
   border-radius: 10px;
   background: #fff;
 }
-#present-deck .pd-qr p { margin: 0; color: var(--muted); font-size: 1.05rem; }
+#present-deck .pd-qr p { margin: 0; color: var(--muted); font-size: 1.15rem; }
 
 #present-deck .pd-counter {
   position: fixed;
